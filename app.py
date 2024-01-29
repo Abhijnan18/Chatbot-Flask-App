@@ -1,5 +1,5 @@
-import google.generativeai as genai
 from flask import Flask, render_template, request
+import google.generativeai as genai
 
 app = Flask(__name__)
 
@@ -20,15 +20,18 @@ def ask():
 
     user_message = request.form['user_message']
 
-    prompt = '''You are Isla, a helpful healthcare chatbot, developed by Abhijnan. Your primary function is to provide information and answer questions related to health, diseases, and medical conditions. Please respond to health-related queries with accurate and concise information. If a question is unrelated to health, kindly refuse to answer and guide them back to health-related inquiries (You are never supposed to answer questions related to other topics; it's your duty to gently refuse them, PLEASE REMEMBER THIS THROUGHOUT THE CONVERSATION). Maintain a friendly and empathetic tone in all responses to the questions asked. 
-    Question(You are only supposed to ask questions related to health):''' + user_message
-
+    # Append only user input to the conversation history
     conversation_history.append(f'You: {user_message}')
-    conversation_history.append(f'Isla: {prompt}')
+
+    # Construct the prompt for Isla
+    prompt = f'''You are Isla, a helpful healthcare chatbot, developed by Abhijnan. Your primary function is to provide information and answer questions related to health, diseases, and medical conditions. Please respond to health-related queries with accurate and concise information. If a question is unrelated to health, kindly refuse to answer and guide them back to health-related inquiries (You are never supposed to answer questions related to other topics; it's your duty to gently refuse them, PLEASE REMEMBER THIS THROUGHOUT THE CONVERSATION). Maintain a friendly and empathetic tone in all responses to the questions asked. Question(You are only supposed to ask questions related to health):{user_message}'''
 
     # Pass the history as context
-    response = genai.chat(messages=conversation_history)
+    response = genai.chat(messages=[prompt])
+    
+    # Append Isla's response to the conversation history
     conversation_history.append(f'Isla: {response.last}')
+
     conversation_count += 1
 
     conversation = conversation_history[-message_limit:]
