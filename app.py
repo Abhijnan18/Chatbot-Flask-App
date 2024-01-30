@@ -1,17 +1,19 @@
-from flask import Flask, render_template, request
 import google.generativeai as genai
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
 # Set up the API key
 genai.configure(api_key='AIzaSyBx1458lTVsLVXnBWLbqw-M0xiECUvcAQo')
 conversation_history = []
-message_limit = 5
+message_limit = 2
 conversation_count = 0
+
 
 @app.route('/')
 def index():
     return render_template('index.html', conversation=[])
+
 
 @app.route('/ask', methods=['POST'])
 def ask():
@@ -28,15 +30,31 @@ def ask():
 
     # Pass the history as context
     response = genai.chat(messages=[prompt])
-    
+
     # Append Isla's response to the conversation history
     conversation_history.append(f'Isla: {response.last}')
-
     conversation_count += 1
 
-    conversation = conversation_history[-message_limit:]
+    if conversation_count == message_limit:
+        return render_template('new_conversation.html')
 
+    conversation = conversation_history[-message_limit:]
     return render_template('index.html', conversation=conversation)
+
+
+@app.route('/new_conversation', methods=['POST'])
+def new_conversation():
+    global conversation_history
+    global conversation_count
+
+    choice = request.form['choice']
+
+    if choice.lower() == 'y':
+        conversation_history = []
+        conversation_count = 0
+
+    return render_template('index.html', conversation=[])
+
 
 if __name__ == '__main__':
     app.run(debug=True)
