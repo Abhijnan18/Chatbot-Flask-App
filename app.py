@@ -9,11 +9,12 @@ conversation_history = []
 message_limit = 2
 conversation_count = 0
 
-
 @app.route('/')
 def index():
-    return render_template('index.html', conversation=[])
-
+    global conversation_count
+    if conversation_count == message_limit:
+        return render_template('index.html', conversation=[], show_form=False, message_limit=message_limit)
+    return render_template('index.html', conversation=[], show_form=True, message_limit=message_limit)
 
 @app.route('/ask', methods=['POST'])
 def ask():
@@ -30,31 +31,24 @@ def ask():
 
     # Pass the history as context
     response = genai.chat(messages=[prompt])
-
+    
     # Append Isla's response to the conversation history
     conversation_history.append(f'Isla: {response.last}')
     conversation_count += 1
 
-    if conversation_count == message_limit:
-        return render_template('new_conversation.html')
-
     conversation = conversation_history[-message_limit:]
-    return render_template('index.html', conversation=conversation)
 
+    if conversation_count == message_limit:
+        return render_template('index.html', conversation=conversation, show_form=False, message_limit=message_limit)
+    return render_template('index.html', conversation=conversation, show_form=True, message_limit=message_limit)
 
 @app.route('/new_conversation', methods=['POST'])
 def new_conversation():
     global conversation_history
     global conversation_count
-
-    choice = request.form['choice']
-
-    if choice.lower() == 'y':
-        conversation_history = []
-        conversation_count = 0
-
-    return render_template('index.html', conversation=[])
-
+    conversation_history = []
+    conversation_count = 0
+    return render_template('index.html', conversation=[], show_form=True, message_limit=message_limit)
 
 if __name__ == '__main__':
     app.run(debug=True)
