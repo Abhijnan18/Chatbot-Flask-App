@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Healthcare Chatbot</title>
 </head>
-<body>
+<body class="overflow-x-hidden font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation
+    Mono", "Courier New" , monospace;>  
+
     <h1>Healthcare Chatbot</h1>
     <div>
         {% for message in conversation %}
@@ -15,11 +18,14 @@
     </div>
     
     {% if show_form %}
-    <form method="post" action="/ask">
-        <label for="user_message">You:</label>
-        <input type="text" id="user_message" name="user_message" required>
-        <input type="submit" value="Ask">
+    <div class="mt-96">
+    <form method="post" action="/ask" class = "flex justify-items-end justify-center h-full">
+        <label for="user_message"></label>
+        <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about health...." required class="border-2 border-indigo-700 bg-indigo-50 w-6/12 rounded-xl p-3">
+        <button type="submit" class="py-2 px-6 ml-2 text-white bg-indigo-400 hover:bg-indigo-800 rounded-full">Ask!</button>
     </form>
+    </div>
+
     {% else %}
     <p>You can only have {{ message_limit }} messages in a conversation. Would you like to start a new conversation?</p>
     <form method="post" action="/new_conversation">
