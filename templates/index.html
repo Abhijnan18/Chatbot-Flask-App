@@ -7,22 +7,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Healthcare Chatbot</title>
 </head>
-<body class="overflow-x-hidden font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation
+<body class="bg-green-50 overflow-x-hidden font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation
     Mono", "Courier New" , monospace;>  
 
     <h1>Healthcare Chatbot</h1>
-    <div>
+    <div id="conversation" class="">
         {% for message in conversation %}
-            <p>{{ message }}</p>
+            {% if 'You:' in message %}
+            <div class="ml-96 mr-20 mb-10">
+                <p class="user-message bg-green-600 text-white p-5 rounded-xl shadow-xl">{{ message }}</p>
+            </div>
+            {% elif 'Lyra:' in message %}
+            <div class="mr-96 ml-20 mb-10">
+                <p class="lyra-message bg-green-100 p-5 rounded-xl shadow-xl">{{ message }}</p>
+            </div>
+            {% endif %}
         {% endfor %}
     </div>
     
     {% if show_form %}
-    <div class="mt-96">
+    <div class="">
     <form method="post" action="/ask" class = "flex justify-items-end justify-center h-full">
         <label for="user_message"></label>
-        <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about health...." required class="border-2 border-indigo-700 bg-indigo-50 w-6/12 rounded-xl p-3">
-        <button type="submit" class="py-2 px-6 ml-2 text-white bg-indigo-400 hover:bg-indigo-800 rounded-full">Ask!</button>
+        <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about health...." required class="border-2 border-green-700 bg-white w-6/12 rounded-xl p-3">
+        <button type="submit" class="py-2 px-6 ml-2 text-white bg-green-400 hover:bg-green-800 rounded-full">Ask!</button>
     </form>
     </div>
 
@@ -32,5 +40,6 @@
         <input type="submit" value="Yes">
     </form>
     {% endif %}
+
 </body>
 </html>

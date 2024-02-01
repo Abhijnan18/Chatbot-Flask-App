@@ -49,8 +49,8 @@ def ask():
     conversation_count += 1
 
     if conversation_count == message_limit:
-        return render_template('index.html', conversation=conversation_history, show_form=False, message_limit=message_limit)
-    return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit)
+        return render_template('index.html', conversation=conversation_history, show_form=False, message_limit=message_limit,conversation_count=conversation_count)
+    return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit,conversation_count=conversation_count)
 
 
 @app.route('/new_conversation', methods=['POST'])
@@ -59,7 +59,7 @@ def new_conversation():
     global conversation_count
     conversation_history = []
     conversation_count = 0
-    return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit)
+    return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit,conversation_count=conversation_count)
 
 
 if __name__ == '__main__':
