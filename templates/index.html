@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Healthcare Chatbot</title>
 </head>
-<body class="bg-green-50 overflow-x-hidden font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation
+<body class="bg-blue-50 overflow-x-hidden font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation
     Mono", "Courier New" , monospace;>  
 
     <h1>Healthcare Chatbot</h1>
@@ -15,24 +15,25 @@
         {% for message in conversation %}
             {% if 'You:' in message %}
             <div class="ml-96 mr-20 mb-10">
-                <p class="user-message bg-green-600 text-white p-5 rounded-xl shadow-xl">{{ message }}</p>
+                <p class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl">{{ message }}</p>
             </div>
             {% elif 'Lyra:' in message %}
             <div class="mr-96 ml-20 mb-10">
-                <p class="lyra-message bg-green-100 p-5 rounded-xl shadow-xl">{{ message }}</p>
+                <p class="lyra-message bg-blue-100 p-5 rounded-xl shadow-xl">{{ message }}</p>
+                <p>{{ conversation_count }} of {{ message_limit }}</p>
             </div>
             {% endif %}
         {% endfor %}
     </div>
     
     {% if show_form %}
-    <div class="">
-    <form method="post" action="/ask" class = "flex justify-items-end justify-center h-full">
-        <label for="user_message"></label>
-        <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about health...." required class="border-2 border-green-700 bg-white w-6/12 rounded-xl p-3">
-        <button type="submit" class="py-2 px-6 ml-2 text-white bg-green-400 hover:bg-green-800 rounded-full">Ask!</button>
-    </form>
-    </div>
+    <div class="fixed bottom-0 w-full bg-transperent border-t border-gray-300 p-4">
+        <form method="post" action="/ask" class="flex justify-between items-center">
+            <label for="user_message" class="sr-only"></label>
+            <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about health...." required class="border-2 border-blue-700 bg-white w-6/12 rounded-xl p-3">
+            <button type="submit" class="py-2 px-6 ml-2 text-white bg-blue-400 hover:bg-blue-800 rounded-full">Ask!</button>
+        </form>
+    </div>    
 
     {% else %}
     <p>You can only have {{ message_limit }} messages in a conversation. Would you like to start a new conversation?</p>
