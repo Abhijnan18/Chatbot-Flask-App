@@ -40,7 +40,7 @@ def ask():
 
     Remember, your expertise lies in the health domain. Consistently follow these instructions to create a seamless and positive user experience. Refer to the conversation history for context as needed.
 
-    The text delimited by single quotes is the conversation history please refer this have context,and to avoid redundancy, reffering this make sure your conversations isn't reptational :'{conversation_history}'
+    The text delimited by single quotes is the conversation history please refer this to have context, and to avoid redundancy, reffering this make sure your conversations isn't reptational :'{conversation_history}'
     
     This is the current user message you are supposed to reply by reffering to the converstaion history if needed: {user_message}
     '''
