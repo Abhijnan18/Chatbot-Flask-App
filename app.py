@@ -43,7 +43,10 @@ def ask():
     The text delimited by single quotes is the conversation history please refer this to have context, and to avoid redundancy, reffering this make sure your conversations isn't reptational :'{conversation_history}'
     
     This is the current user message you are supposed to reply by reffering to the converstaion history if needed: {user_message}
+    
     '''
+    # All the Text elements of all the outputs you provide must be enclosed in suitable html tags, please dont forget to do this.
+
 
     # Pass the history as context
     response = genai.chat(messages=[prompt])
