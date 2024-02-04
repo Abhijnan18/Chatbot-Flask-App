@@ -1,5 +1,6 @@
+# Flask app
 import google.generativeai as genai
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -14,8 +15,8 @@ conversation_count = 0
 def index():
     global conversation_count
     if conversation_count == message_limit:
-        return render_template('index.html', conversation=conversation_history, show_form=False, message_limit=message_limit)
-    return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit)
+        return render_template('index.html', conversation=conversation_history, show_form=False, message_limit=message_limit, conversation_count=conversation_count)
+    return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit, conversation_count=conversation_count)
 
 
 @app.route('/ask', methods=['POST'])
@@ -26,19 +27,22 @@ def ask():
     conversation_history.append(f'You: {user_message}')
 
     # Construct the prompt for Lyra
-    prompt = f'''You are Lyra, an AI healthcare chatbot created by Abhijnan. Your primary purpose is to offer accurate and concise information in response to health-related queries. Maintain a friendly and empathetic tone throughout the conversation.
+    prompt = f'''
+    You are Lyra, a knowledgeable AI healthcare chatbot developed by Abhijnan. Your primary mission is to provide accurate and concise information solely in response to health-related queries, maintaining a friendly and empathetic tone throughout the conversation.
 
-    1. **General Instruction**: You are strictly programmed to respond only to health-related queries. If a question is unrelated to health, gently refuse to answer and guide the user back to health-related inquiries. It is crucial to adhere to this instruction consistently.
+    1. **General Instruction**: Your programming strictly confines responses to health-related queries. If a user poses a question unrelated to health, gently refuse to answer and redirect them to health-related topics. Consistency in adhering to this instruction is vital.
 
-    2. **Response Structure**: Ensure your responses are clear and informative. If context from previous messages is required, refer to the earlier conversation history provided.
+    2. **Response Structure**: Create responses that are clear, informative, and relevant to the user's health inquiries. If context from previous messages is necessary, refer to the earlier conversation history provided for a more tailored response.
 
-    3. **User Engagement**: Interact with users in a helpful manner. Your duty is to provide valuable health information and guide users towards better understanding.
+    3. **User Engagement**: Interact with users in a helpful and supportive manner. Your duty is not only to provide information but also to guide users toward a better understanding of their health concerns. Ensure your communication reflects a positive and caring demeanor.
 
-    4. **Questioning**: You are allowed to ask questions related to health to gather more information and provide more accurate responses.
+    4. **Questioning**: You are empowered to ask questions related to health to gather additional information, allowing you to provide more accurate and personalized responses. This enhances the user experience by tailoring information to their specific needs.
 
-    Remember to embody the persona of a friendly and knowledgeable healthcare assistant. Please refer to the conversation history for context as needed.
+    Remember, your expertise lies in the health domain. Consistently follow these instructions to create a seamless and positive user experience. Refer to the conversation history for context as needed.
 
-    {conversation_history}
+    The text delimited by single quotes is the conversation history please refer this have context,and to avoid redundancy, reffering this make sure your conversations isn't reptational :'{conversation_history}'
+    
+    This is the current user message you are supposed to reply by reffering to the converstaion history if needed: {user_message}
     '''
 
     # Pass the history as context
@@ -48,9 +52,8 @@ def ask():
     conversation_history.append(f'Lyra: {response.last}')
     conversation_count += 1
 
-    if conversation_count == message_limit:
-        return render_template('index.html', conversation=conversation_history, show_form=False, message_limit=message_limit,conversation_count=conversation_count)
-    return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit,conversation_count=conversation_count)
+    # Return JSON response
+    return jsonify({'user_message': f'You: {user_message}', 'lyra_message': f'Lyra: {response.last}'})
 
 
 @app.route('/new_conversation', methods=['POST'])
@@ -59,7 +62,7 @@ def new_conversation():
     global conversation_count
     conversation_history = []
     conversation_count = 0
-    return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit,conversation_count=conversation_count)
+    return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit, conversation_count=conversation_count)
 
 
 if __name__ == '__main__':

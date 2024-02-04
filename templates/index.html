@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Healthcare Chatbot</title>
 </head>
@@ -41,6 +42,34 @@
         <input type="submit" value="Yes">
     </form>
     {% endif %}
+
+    <script>
+        $(document).ready(function () {
+            // Intercept the form submission
+            $('form').submit(function (event) {
+                // Prevent the default form submission
+                event.preventDefault();
+
+                // Get user input
+                var userMessage = $('#user_message').val();
+
+                // Make an AJAX request to the server
+                $.ajax({
+                    type: 'POST',
+                    url: '/ask',
+                    data: { 'user_message': userMessage },
+                    success: function (data) {
+                        // Update the conversation dynamically
+                        $('#conversation').append('<div class="ml-96 mr-20 mb-10"><p class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl">' + data.user_message + '</p></div>');
+                        $('#conversation').append('<div class="mr-96 ml-20 mb-10"><p class="lyra-message bg-blue-100 p-5 rounded-xl shadow-xl">' + data.lyra_message + '</p></div>');
+                        
+                        // Clear the input field
+                        $('#user_message').val('');
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
