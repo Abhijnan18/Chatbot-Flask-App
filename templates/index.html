@@ -7,12 +7,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Healthcare Chatbot</title>
+    <style>
+        .fixed-input {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: transperent;
+            box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #conversation {
+            max-height: calc(100vh - 60px); /* Adjusted height to make room for the fixed input */
+            overflow-y: auto;
+            margin-bottom: 60px;
+        }
+    </style>
 </head>
-<body class="bg-blue-50 overflow-x-hidden font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation
-    Mono", "Courier New" , monospace;>  
+<body class="bg-blue-50 overflow-x-hidden font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, 'Courier New', monospace;">
 
     <h1>Healthcare Chatbot</h1>
-    <div id="conversation" class="">
+    <div id="conversation" class="overflow-y-auto">
         {% for message in conversation %}
             {% if 'You:' in message %}
             <div class="ml-96 mr-20 mb-10">
@@ -26,22 +41,14 @@
             {% endif %}
         {% endfor %}
     </div>
-    
-    {% if show_form %}
-    <div class="fixed bottom-0 w-full bg-transparent border-t border-gray-300 p-4">
-        <form method="post" action="/ask" class="flex justify-between items-center">
+
+    <div class="fixed-input">
+        <form method="post" action="/ask" class="flex justify-center items-center">
             <label for="user_message" class="sr-only"></label>
             <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about health...." required class="border-2 border-blue-700 bg-white w-6/12 rounded-xl p-3">
             <button type="submit" class="py-2 px-6 ml-2 text-white bg-blue-400 hover:bg-blue-800 rounded-full">Ask!</button>
         </form>
-    </div>    
-
-    {% else %}
-    <p>You can only have {{ message_limit }} messages in a conversation. Would you like to start a new conversation?</p>
-    <form method="post" action="/new_conversation">
-        <input type="submit" value="Yes">
-    </form>
-    {% endif %}
+    </div>
 
     <script>
         $(document).ready(function () {
@@ -71,6 +78,9 @@
                         // Update the conversation dynamically
                         $('#conversation').find('.lyra-message:contains("Generating...")').remove(); // Remove "Generating..." message
                         $('#conversation').append('<div class="mr-96 ml-20 mb-10"><p class="lyra-message bg-green-300 p-5 rounded-xl shadow-xl"> ' + data.lyra_message + '</p></div>');
+
+                        // Scroll to the bottom of the conversation
+                        $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
                     }
                 });
             });

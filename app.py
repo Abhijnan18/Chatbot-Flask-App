@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Set up the API key
 genai.configure(api_key='AIzaSyBx1458lTVsLVXnBWLbqw-M0xiECUvcAQo')
 conversation_history = []
-message_limit = 5
+message_limit = 50
 conversation_count = 0
 
 
