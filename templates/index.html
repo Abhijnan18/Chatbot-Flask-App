@@ -26,7 +26,7 @@
             </div>            
             {% elif 'Lyra:' in message %}
             <div class="max-w-[50%] mb-10 mr-auto ml-20">
-                <p class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px]">{{ message }}</p>
+                <p class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px] h-auto">{{ message }}</p>
                 <p>{{ conversation_count }} of {{ message_limit }}</p>
             </div>
             {% endif %}
@@ -37,7 +37,7 @@
         <form method="post" action="/ask" class="flex justify-center items-center">
             <label for="user_message" class="sr-only"></label>
             <div class="flex items-center border-2 border-blue-700 bg-white w-6/12 h-28 rounded-xl p-5">
-                <textarea id="user_message" name="user_message" placeholder="Ask me anything about health..." required class="w-full block h-auto"></textarea>
+                <input id="user_message" name="user_message" placeholder="Ask me anything about health..." required class="w-full block h-auto"></input>
                 <button type="submit" class="py-2 px-6 text-white bg-blue-400 hover:bg-blue-800 rounded-full">Ask!</button>
               </div>
               
@@ -71,7 +71,7 @@
                     success: function (data) {
                         // Update the conversation dynamically
                         $('#conversation').find('.lyra-message:contains("Generating...")').remove(); // Remove "Generating..." message
-                        $('#conversation').append('<div class="max-w-[50%] mb-10 mr-auto ml-20"><p class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px]"> ' + data.lyra_message + '</p></div>');
+                        $('#conversation').append('<div class="max-w-[50%] mb-10 mr-auto ml-20"><p class="lyra-message h-auto bg-slate-100 p-5 rounded-xl shadow-xl border-[1px]"> ' + data.lyra_message + '</p></div>');
 
                         // Scroll to the bottom of the conversation
                         $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
