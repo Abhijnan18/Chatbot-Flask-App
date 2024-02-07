@@ -22,11 +22,11 @@
         {% for message in conversation %}
     {% if 'You:::' in message %}
         <div class="max-w-[50%] mb-10 ml-auto mr-20">
-            <p class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl">{{ message.split(':::')[1] }}</p>
+            <div class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl w-auto"><p class="m-2 ml-0 text-xl text-green-100">You</p>{{ message.split(':::')[1] }}</div>
         </div>            
     {% elif 'Lyra:::' in message %}
         <div class="max-w-[50%] mb-10 mr-auto ml-20">
-            <div class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px] h-auto">{{ message.split(':::',1)[1] | safe }}</div>
+            <div class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px] h-auto"><p class="m-2 ml-0 text-xl text-green-500">Lyra</p>{{ message.split(':::',1)[1] | safe }}</div>
             <p>{{ conversation_count }} of {{ message_limit }}</p>
         </div>
     {% endif %}
