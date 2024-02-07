@@ -1,6 +1,9 @@
 # Flask app
 import google.generativeai as genai
 from flask import Flask, render_template, request, jsonify
+from IPython.display import Markdown
+import markdown
+
 
 app = Flask(__name__)
 
@@ -46,17 +49,24 @@ def ask():
     
     '''
     # All the Text elements of all the outputs you provide must be enclosed in suitable html tags, please dont forget to do this.
-
+    # def to_markdown(text):
+    #     text = text.replace('•', '  *')
+    #     return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
 
     # Pass the history as context
     response = genai.chat(messages=[prompt])
+    md_text = response.last
+    
+    # Convert markdown to html using the markdown function
+    html = markdown.markdown(md_text)
+    
 
     # Append user input and Lyra's response to the conversation history
-    conversation_history.append(f'Lyra: {response.last}')
+    conversation_history.append(f'Lyra: { html }')
     conversation_count += 1
 
     # Return JSON response
-    return jsonify({'user_message': f'You: {user_message}', 'lyra_message': f'Lyra: {response.last}'})
+    return jsonify({'user_message': f'You: {user_message}', 'lyra_message': f'Lyra: {html}'})
 
 
 @app.route('/new_conversation', methods=['POST'])
