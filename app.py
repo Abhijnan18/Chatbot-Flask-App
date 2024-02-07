@@ -27,7 +27,7 @@ def ask():
     global conversation_count
 
     user_message = request.form['user_message']
-    conversation_history.append(f'You: {user_message}')
+    conversation_history.append(f'You::: {user_message}')
 
     # Construct the prompt for Lyra
     prompt = f'''
@@ -62,11 +62,11 @@ def ask():
     
 
     # Append user input and Lyra's response to the conversation history
-    conversation_history.append(f'Lyra: { html }')
+    conversation_history.append(f'Lyra::: { html }')
     conversation_count += 1
 
     # Return JSON response
-    return jsonify({'user_message': f'You: {user_message}', 'lyra_message': f'Lyra: {html}'})
+    return jsonify({'user_message': f'You::: {user_message}', 'lyra_message': f'Lyra::: {html}'})
 
 
 @app.route('/new_conversation', methods=['POST'])

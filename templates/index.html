@@ -20,17 +20,18 @@
     <h1>Healthcare Chatbot</h1>
     <div id="conversation" class="">
         {% for message in conversation %}
-            {% if 'You:' in message %}
-            <div class="max-w-[50%] mb-10 ml-auto mr-20">
-                <p class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl">{{ message }}</p>
-            </div>            
-            {% elif 'Lyra:' in message %}
-            <div class="max-w-[50%] mb-10 mr-auto ml-20">
-                <div class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px] h-auto">{{ message | safe }}</div>
-                <p>{{ conversation_count }} of {{ message_limit }}</p>
-            </div>
-            {% endif %}
-        {% endfor %}
+    {% if 'You:::' in message %}
+        <div class="max-w-[50%] mb-10 ml-auto mr-20">
+            <p class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl">{{ message.split(':::')[1] }}</p>
+        </div>            
+    {% elif 'Lyra:::' in message %}
+        <div class="max-w-[50%] mb-10 mr-auto ml-20">
+            <div class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px] h-auto">{{ message.split(':::',1)[1] | safe }}</div>
+            <p>{{ conversation_count }} of {{ message_limit }}</p>
+        </div>
+    {% endif %}
+{% endfor %}
+
     </div>
 
     <div class="fixed-input fixed bottom-0 w-full p-4">
@@ -50,19 +51,19 @@
             $('form').submit(function (event) {
                 // Prevent the default form submission
                 event.preventDefault();
-
+        
                 // Get user input
                 var userMessage = $('#user_message').val();
-
+        
                 // Clear the input field
                 $('#user_message').val('');
-
+        
                 // Add user message to the conversation
-                $('#conversation').append('<div class="max-w-[50%] mb-10 ml-auto mr-20"><p class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl">You: ' + userMessage + '</p></div>');
-
+                $('#conversation').append('<div class="max-w-[50%] mb-10 ml-auto mr-20"><p class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl">' + userMessage + '</p></div>');
+        
                 // Show "Generating..." message
                 $('#conversation').append('<div class="mr-96 ml-20 mb-10"><p class="lyra-message bg-yellow-300 p-5 rounded-xl shadow-xl">Generating...</p></div>');
-
+        
                 // Make an AJAX request to the server
                 $.ajax({
                     type: 'POST',
@@ -71,14 +72,15 @@
                     success: function (data) {
                         // Update the conversation dynamically
                         $('#conversation').find('.lyra-message:contains("Generating...")').remove(); // Remove "Generating..." message
-                        $('#conversation').append('<div class="max-w-[50%] mb-10 mr-auto ml-20"><div class="lyra-message h-auto bg-slate-100 p-5 rounded-xl shadow-xl border-[1px]"> ' + data.lyra_message + '</div></div>');
-
+                        $('#conversation').append('<div class="max-w-[50%] mb-10 mr-auto ml-20"><div class="lyra-message h-auto bg-slate-100 p-5 rounded-xl shadow-xl border-[1px]"> ' + data.lyra_message.split(':::')[1] + '</div></div>');
+        
                         // Scroll to the bottom of the conversation
                         $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
                     }
                 });
             });
         });
+         
     </script>
 
 </body>
