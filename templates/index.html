@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,42 +9,62 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Healthcare Chatbot</title>
     <style>
-       
         #conversation {
-            max-height: calc(100vh - 60px); /* Adjusted height to make room for the fixed input */
+            max-height: calc(100vh - 60px);
+            /* Adjusted height to make room for the fixed input */
             overflow-y: auto;
             margin-bottom: 60px;
         }
+
+        .lyra-message h1 {}
+
+        .lyra-message p {}
+
+        .lyra-message li {
+            margin-left: 50px;
+        }
+
+        .lyra-message ul {
+            list-style-type: disc;
+        }
     </style>
 </head>
-<body class="bg-gradient-to-r from-blue-50 via-violet-50 to-purple-50 overflow-x-hidden font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, 'Courier New', monospace;">
+
+<body
+    class="bg-gradient-to-r from-blue-50 via-violet-50 to-purple-50 overflow-x-hidden font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, 'Courier New', monospace;">
     <h1>Healthcare Chatbot</h1>
     <div id="conversation" class="">
         {% for message in conversation %}
-    {% if 'You:::' in message %}
+        {% if 'You:::' in message %}
         <div class="max-w-[50%] mb-10 ml-auto mr-20">
-            <div class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl w-auto"><p class="m-2 ml-0 text-xl text-green-100">You</p>{{ message.split(':::')[1] }}</div>
-        </div>            
-    {% elif 'Lyra:::' in message %}
-        <div class="max-w-[50%] mb-10 mr-auto ml-20">
-            <div class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px] h-auto"><p class="m-2 ml-0 text-xl text-green-500">Lyra</p>{{ message.split(':::',1)[1] | safe }}</div>
-            <p>{{ conversation_count }} of {{ message_limit }}</p>
+            <div class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl w-auto">
+                <p class="m-2 ml-0 text-xl text-green-100">You</p>{{ message.split(':::')[1] }}
+            </div>
         </div>
-    {% endif %}
-{% endfor %}
+        {% elif 'Lyra:::' in message %}
+        <div class="max-w-[50%] mb-10 mr-auto ml-20">
+            <div class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px] h-auto p-24">
+                <p class="m-2 ml-0 text-xl text-green-500">Lyra</p>{{ message.split(':::',1)[1] | safe }}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
 
     </div>
 
-    <div class="fixed-input fixed bottom-0 w-full p-4">
+
+
+    <div class="fixed bottom-0 w-full p-4">
         <form method="post" action="/ask" class="flex justify-center items-center">
             <label for="user_message" class="sr-only"></label>
-            <div class="flex items-center">
-                <input id="user_message" name="user_message" placeholder="Ask me anything about health..." required class="w-full block h-auto border-2 border-blue-700 bg-white h-28 rounded-xl p-5"></input>
-                <button type="submit" class="py-2 px-6 text-white bg-blue-400 hover:bg-blue-800 rounded-full">Ask!</button>
-              </div>
-              
+            <input type="text" id="user_message" name="user_message" placeholder="Ask me anything about health...."
+                required class="border-2 border-blue-700 bg-white w-6/12 rounded-xl p-3">
+            <button type="submit"
+                class="py-2 px-6 ml-2 text-white bg-blue-400 hover:bg-blue-800 rounded-full">Ask!</button>
         </form>
     </div>
+
+
 
     <script>
         $(document).ready(function () {
@@ -51,19 +72,19 @@
             $('form').submit(function (event) {
                 // Prevent the default form submission
                 event.preventDefault();
-        
+
                 // Get user input
                 var userMessage = $('#user_message').val();
-        
+
                 // Clear the input field
                 $('#user_message').val('');
-        
+
                 // Add user message to the conversation
                 $('#conversation').append('<div class="max-w-[50%] mb-10 ml-auto mr-20"><p class="user-message bg-blue-600 text-white p-5 rounded-xl shadow-xl">' + userMessage + '</p></div>');
-        
+
                 // Show "Generating..." message
-                $('#conversation').append('<div class="mr-96 ml-20 mb-10"><p class="lyra-message bg-yellow-300 p-5 rounded-xl shadow-xl">Generating...</p></div>');
-        
+                $('#conversation').append('<div class="lyra-message flex justify-center items-center animate-pulse"><div class="bg-blue-200 border-2 border-blue-600 rounded-lg p-4 shadow-md"><div class="flex items-center justify-center space-x-2"><p class="text-blue-600 text-lg font-semibold">Generating...</p><svg class="w-6 h-6 text-blue-600 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div></div></div>');
+
                 // Make an AJAX request to the server
                 $.ajax({
                     type: 'POST',
@@ -73,15 +94,16 @@
                         // Update the conversation dynamically
                         $('#conversation').find('.lyra-message:contains("Generating...")').remove(); // Remove "Generating..." message
                         $('#conversation').append('<div class="max-w-[50%] mb-10 mr-auto ml-20"><div class="lyra-message h-auto bg-slate-100 p-5 rounded-xl shadow-xl border-[1px]"> ' + data.lyra_message.split(':::')[1] + '</div></div>');
-        
+
                         // Scroll to the bottom of the conversation
                         $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
                     }
                 });
             });
         });
-         
+
     </script>
 
 </body>
+
 </html>
