@@ -57,21 +57,21 @@
 
 
             <div id="conversation" class=" mt-5 mb-2 overflow-y-auto">
-                <h1 class="text-center text-[40px] font-semibold leading-[52px]	">Lyra</h1>
+                <h1 class="text-center text-[40px] font-semibold leading-[52px]	text-blue-600">Lyra</h1>
             <div class="text-center text-[20px] font-normal leading-[26px] mt-[1vh] text-gray-500">Healthcare Chatbot</div>
 
 
             <div class="grid grid-cols-3 gap-2 mt-[10vh] mb-[10vh]">
-                <div class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">Can you recommend some exercises to improve flexibility?</div>
-                <div class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">What are the symptoms of a heart attack and how should they be treated?</div>
-                <div class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">How can I effectively manage stress in my daily life?</div>
-                <div class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">What are the numerous benefits associated with regular physical activity?</div>
-                <div class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">How can I improve my posture to prevent back pain and other issues?</div>
-                <div class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">What are some practical tips for developing and maintaining healthy eating habits?</div>
+                <div id="prompt1" class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">Can you recommend some exercises to improve flexibility?</div>
+                <div id="prompt2" class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">What are the symptoms of a heart attack and how should they be treated?</div>
+                <div id="prompt3" class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">How can I effectively manage stress in my daily life?</div>
+                <div id="prompt4" class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">What are the numerous benefits associated with regular physical activity?</div>
+                <div id="prompt5" class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">How can I improve my posture to prevent back pain and other issues?</div>
+                <div id="prompt6" class="flex justify-center items-center rounded-xl p-5 text-base bg-gray-50 text-gray-900 font-semibold shadow-lg m-1 hover:border-2 hover:border-blue-700 transition duration-300 ease-in-out border-2 border-transparent">What are some practical tips for developing and maintaining healthy eating habits?</div>
             </div>
             <div class="max-w-[60%] mb-10 mr-auto ml-3">
                 <div class="lyra-message bg-slate-100 p-5 rounded-xl shadow-xl border-[1px] h-auto p-6">
-                    <p class="m-2 mt-0 ml-0 text-lg text-blue-700 font-semibold">Lyra</p> Hey there how can I help you?
+                    <p class="m-2 mt-0 ml-0 text-lg text-blue-700 font-semibold">Lyra</p>How can I help you today?
                 </div>
             </div>
                 {% for message in conversation %}
@@ -99,9 +99,9 @@
                     <label for="user_message" class="sr-only"></label>
                     <input type="text" id="user_message" name="user_message"
                         placeholder="Ask me anything about health...." required
-                        class="border-2 border-blue-700 bg-white w-6/12 rounded-xl p-3 opacity-100">
+                        class="border-2 border-blue-700 bg-white w-6/12 rounded-full p-4 opacity-100">
                     <button type="submit"
-                        class="py-2 px-6 ml-3 text-white bg-blue-600 hover:bg-blue-800 rounded-full">
+                        class="p-4 ml-3 text-white bg-blue-600 hover:bg-blue-800 rounded-full">
                         <span ><svg class="h-6 w-6" width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#fff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M3.3938 2.20468C3.70395 1.96828 4.12324 1.93374 4.4679 2.1162L21.4679 11.1162C21.7953 11.2895 22 11.6296 22 12C22 12.3704 21.7953 12.7105 21.4679 12.8838L4.4679 21.8838C4.12324 22.0662 3.70395 22.0317 3.3938 21.7953C3.08365 21.5589 2.93922 21.1637 3.02382 20.7831L4.97561 12L3.02382 3.21692C2.93922 2.83623 3.08365 2.44109 3.3938 2.20468ZM6.80218 13L5.44596 19.103L16.9739 13H6.80218ZM16.9739 11H6.80218L5.44596 4.89699L16.9739 11Z" fill="#fff"></path> </g></svg></span>
                     </button>
                 </form>
@@ -113,8 +113,18 @@
     </div>
 
 
-
     <script>
+        $(document).ready(function () {
+            // Click event listeners for the prompt divs
+            $('#prompt1, #prompt2, #prompt3, #prompt4, #prompt5, #prompt6').click(function () {
+                // Get the text content of the clicked prompt
+                var promptText = $(this).text();
+        
+                // Set the input field value to the prompt text
+                $('#user_message').val(promptText);
+            });
+        });
+        
         $(document).ready(function () {
             // Intercept the form submission
             $('form').submit(function (event) {
