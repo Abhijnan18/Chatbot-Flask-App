@@ -77,6 +77,5 @@ def new_conversation():
     conversation_count = 0
     return render_template('index.html', conversation=conversation_history, show_form=True, message_limit=message_limit, conversation_count=conversation_count)
 
-
 if __name__ == '__main__':
     app.run(debug=True)
