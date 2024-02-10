@@ -44,11 +44,11 @@ message_limit = 50
 conversation_count = 0
 
 
-@app.route('/chatbot')
+@app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/')
+@app.route('/appointment')
 def index2():
     return render_template('appointment.html')
 
