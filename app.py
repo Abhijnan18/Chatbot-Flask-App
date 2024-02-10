@@ -50,7 +50,7 @@ def index():
 
 @app.route('/')
 def index2():
-    return render_template('appiont.html')
+    return render_template('appointment.html')
 
 
 @app.route('/ask', methods=['POST'])
